@@ -3,4 +3,7 @@ declare module '*.vue' {
   export default Vue;
 }
 
-declare module 'web3';
+declare module 'web3'
+declare module 'ethereumjs-tx'
+declare module "vuetify"
+declare module "vuetify/es5/util/colors"
