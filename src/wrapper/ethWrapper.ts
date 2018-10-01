@@ -56,7 +56,7 @@ export default class EthWrapper {
         return result
     }
 
-    // 署名なしトランザクション
+    // 署名なしトランザクション ※ノードが送金元の秘密鍵知っていれば送れる.
     public async sendEth(fromAddress: string, toAddress: string, amount: number) {
         const ether = this.web3.utils.toWei(`${amount}`, 'ether')
         console.log(ether)

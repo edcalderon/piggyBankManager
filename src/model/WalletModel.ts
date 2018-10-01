@@ -29,12 +29,12 @@ export default class WalletModel {
         })
     }
 
-    // ローカルストレージへ保存.
+    // ローカルストレージへ保存
     public async save() {
         return await localForage.setItem(this.localStorageKey, this.toJSON())
     }
 
-    // ローカルストレージから取得.
+    // ローカルストレージから取得
     public async load() {
         const result: any = await localForage.getItem(this.localStorageKey)
         if (result !== null) {
@@ -44,17 +44,17 @@ export default class WalletModel {
         return result
     }
 
-    // ローカルストレージから削除.
+    // ローカルストレージから削除
     public async remove() {
         return await localForage.removeItem(this.localStorageKey)
     }
 
-    // アカウント情報を取得.
+    // アカウント情報を取得
     public async getAccount() {
         this.balance = await this.eth.getBalance(this.address)
     }
 
-    // 送金(NEM)
+    // 送金(ETH)
     public async sendNem(toAddress: string, amount: number)  {
         return await this.eth.sendEthWithSign(this.address, toAddress, this.privateKey, amount)
     }
