@@ -5,18 +5,23 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import EthWrapper from '@/wrapper/EthWrapper'
+import WalletModel from '@/model/WalletModel'
 
 @Component
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string
+  private wallet?: WalletModel
 
+  private created() {
+    this.wallet = new WalletModel()
+  }
+  
   private mounted () {
-    const fromAddress = '0x26d88305D5f16f5763E4bAcB15e106Dd22014F16'
-    const privateKey = '4272D4D278C2E4FE4681099D113E74F7DFCADE5CDE5C90672002D2DC6952E17B'
-    const toAddress = '0x6c4C57249F3836B2039eaf1B398d718e171E9552'
-    const eth = new EthWrapper()
-    eth.sendEthWithSign(fromAddress, toAddress, privateKey, 0.1)
+    // const fromAddress = ''
+    // const privateKey = ''
+    // const toAddress = ''
+    // const eth = new EthWrapper()
+    // eth.sendEthWithSign(fromAddress, toAddress, privateKey, 0.1)
     // eth.sendEth(fromAddress, toAddress, 0.1, 'message')
   }
 }
