@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-sw.js");
 
 importScripts(
-  "/eth-wallet/precache-manifest.9d08f2bc2248a7fa7b4511a1f29d59e1.js"
+  "/eth-wallet/precache-manifest.ad7efc84df11743f5312cc70a9085c9a.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "eth-wallet"});

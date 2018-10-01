@@ -36,7 +36,7 @@ export default class EthWrapper {
         const gasParams = {
             from: fromAddress,
             to: toAddress,
-            value: ether
+            value: ether,
         }
         const gasLimit = await this.web3.eth.estimateGas(gasParams)
         const gasPrice = await this.web3.eth.getGasPrice()
@@ -46,7 +46,7 @@ export default class EthWrapper {
             gasPrice: this.web3.utils.toHex(gasPrice),
             gasLimit: this.web3.utils.toHex(gasLimit),
             to: toAddress,
-            value: this.web3.utils.toHex(ether)
+            value: this.web3.utils.toHex(ether),
         }
         const tx = new Tx(params)
         tx.sign(new Buffer.from(privateKey, 'hex'))
@@ -63,7 +63,7 @@ export default class EthWrapper {
         const params = {
             from: fromAddress,
             to: toAddress,
-            value: ether
+            value: ether,
         }
         const result = await this.web3.eth.sendTransaction(params)
         console.log(result)

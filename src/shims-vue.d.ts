@@ -5,6 +5,8 @@ declare module '*.vue' {
 
 declare module 'web3'
 declare module 'ethereumjs-tx'
-declare module "vuetify"
+// declare module "vuetify"
 declare module "vuetify/es5/util/colors"
 declare module 'localforage'
+declare module 'vue-qriously'
+declare module 'vue2-toast'

@@ -55,14 +55,15 @@ export default class WalletModel {
     }
 
     // 送金(ETH)
-    public async sendNem(toAddress: string, amount: number)  {
+    public async sendEth(toAddress: string, amount: number)  {
+        console.log('privateKey', this.privateKey)
         return await this.eth.sendEthWithSign(this.address, toAddress, this.privateKey, amount)
     }
 
     public toJSON() {
         return {
             address: this.address,
-            privateKey: this.privateKey
+            privateKey: this.privateKey,
         }
     }
 }

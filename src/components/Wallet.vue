@@ -1,0 +1,120 @@
+<template>
+<div class="wallet">
+    <v-flex xs12 sm6 offset-sm3>
+    <v-card>
+      <v-container fluid>
+        <v-card flat>
+          <v-card-actions>
+            <v-card-title><b>残高</b></v-card-title>
+            <v-spacer />
+            <v-btn fab small flat @click="getAccount()" :loading="isLoading"><v-icon>cached</v-icon></v-btn>
+          </v-card-actions>
+          <v-card-text>{{ wallet.balance }} eth</v-card-text>
+          <v-card-title><b>送金先アドレス</b></v-card-title>
+          <v-card-text>{{ wallet.address }}</v-card-text>
+          <v-card flat>
+            <qriously v-model="qrJson" :size="qrSize" />
+          </v-card>
+        </v-card>
+        <v-card flat>
+          <div v-for="(item, index) in validation" :key="index" class="errorLabel">
+            <div v-if="item!==true">{{ item }}</div>
+          </div>
+          <v-card-title><b>送金</b></v-card-title>
+            <v-text-field
+              label="送金先"
+              v-model="toAddr"
+              :counter="42"
+              required
+              placeholder="例. 0x26d88305D5f16f5763E4bAcB15e106Dd22014F16"
+            ></v-text-field>
+            <v-text-field
+              label="ETH"
+              v-model="toAmount"
+              type="number"
+              required
+            ></v-text-field>
+          <v-flex>
+            <v-btn color="blue" class="white--text" @click="tapSend()">送金</v-btn>
+          </v-flex>
+        </v-card>
+      </v-container>
+    </v-card>
+    </v-flex>
+</div>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import WalletModel from '@/model/WalletModel'
+
+export default Vue.extend({
+  name: 'Wallet',
+  data: () => ({
+    isLoading: false as boolean,
+    wallet: new WalletModel() as WalletModel,
+    qrSize: 200 as number,
+    toAmount: 0 as number,
+    toAddr: '' as string,
+    qrJson: '' as string,
+    validation: [] as any[],
+    rules: {
+      senderAddrLimit: (value: string) => (value && (value.length === 42)) || '送金先アドレスは0x含めた42文字です。',
+      senderAddrInput: (value: string) => {
+        const pattern = /^[a-zA-Z0-9-]+$/
+        return pattern.test(value) || '送金先の入力が不正です'
+      },
+      amountLimit: (value: number) => (value >= 0) || '数量を入力してください',
+      amountInput: (value: string) => {
+        const pattern = /^[0-9.]+$/
+        return (pattern.test(value) && !isNaN(Number(value))) || '数量の入力が不正です'
+      },
+      messageRules: (value: string) => (value.length <= 1024) || 'メッセージの最大文字数が超えています。',
+    },
+  }),
+  watch: {
+    'wallet.address'(newVal, oldVal) {
+      this.qrJson = 'ethereum:\n' + newVal
+    },
+  },
+  mounted() {
+    console.log('hello')
+    Vue.prototype.$toast("Hello eth wallet")
+  },
+  methods: {
+    async getAccount() {
+      this.isLoading = true
+      await this.wallet.getAccount()
+      this.isLoading = false
+    },
+    async tapSend() {
+      if (this.isValidation() === true) {
+        const result = await this.wallet.sendEth(this.toAddr, this.toAmount)
+        console.log('tapSend', result)
+        let message = '送金しました'
+        if (result.message !== 'SUCCESS') {
+          message = 'Error ' + result.message
+        }
+        Vue.prototype.$toast(message)
+      }
+    },
+    isValidation(): boolean {
+      this.validation = []
+      this.validation.push(this.rules.senderAddrLimit(this.toAddr))
+      this.validation.push(this.rules.senderAddrInput(this.toAddr))
+      this.validation.push(this.rules.amountLimit(this.toAmount))
+      this.validation.push(this.rules.amountInput(`${this.toAmount}`))
+      const isValidation = this.validation.find((obj: any) => obj !== true )
+      return isValidation
+    },
+  },
+})
+</script>
+<style scoped>
+.wallet {
+  word-break: break-all;
+}
+.errorLabel {
+  color: red;
+}
+</style>

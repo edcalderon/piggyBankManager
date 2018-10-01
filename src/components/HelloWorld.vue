@@ -10,20 +10,6 @@ import WalletModel from '@/model/WalletModel'
 @Component
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string
-  private wallet?: WalletModel
-
-  private created() {
-    this.wallet = new WalletModel()
-  }
-  
-  private mounted () {
-    // const fromAddress = ''
-    // const privateKey = ''
-    // const toAddress = ''
-    // const eth = new EthWrapper()
-    // eth.sendEthWithSign(fromAddress, toAddress, privateKey, 0.1)
-    // eth.sendEth(fromAddress, toAddress, 0.1, 'message')
-  }
 }
 </script>
 
