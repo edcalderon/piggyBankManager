@@ -90,14 +90,17 @@ export default class Wallet extends Vue {
 
     private async tapSend() {
       if (this.isValidation() === true) {
-        const result = await this.wallet.sendEth(this.toAddr, this.toAmount)
-        console.log('tapSend', result)
-        let message = '送金しました'
-        if (result.message !== 'SUCCESS') {
-          message = 'Error ' + result.message
+        console.log('OK')
+        try {
+          const result = await this.wallet.sendEth(this.toAddr, this.toAmount)
+          const message = `送金しました\n${result.blockHash}`
+          Vue.prototype.$toast(message)
+        } catch (error) {
+          console.error(error)
+          Vue.prototype.$toast(error)
         }
-        Vue.prototype.$toast(message)
       }
+      console.log(this.isValidation())
     }
 
     private isValidation(): boolean {
@@ -106,8 +109,8 @@ export default class Wallet extends Vue {
       this.validation.push(this.rules.senderAddrInput(this.toAddr))
       this.validation.push(this.rules.amountLimit(this.toAmount))
       this.validation.push(this.rules.amountInput(`${this.toAmount}`))
-      const isValidation = this.validation.find((obj: any) => obj !== true )
-      return isValidation
+      const error: any[] = this.validation.filter((obj: any) => obj !== true )
+      return (error.length === 0) ? true : false
     }
 }
 /*

@@ -56,7 +56,6 @@ export default class WalletModel {
 
     // 送金(ETH)
     public async sendEth(toAddress: string, amount: number)  {
-        console.log('privateKey', this.privateKey)
         return await this.eth.sendEthWithSign(this.address, toAddress, this.privateKey, amount)
     }
 

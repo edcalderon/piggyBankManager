@@ -26,7 +26,7 @@ export default class EthWrapper {
     public async getBalance(address: string) {
         const balance = await this.web3.eth.getBalance(address)
         console.log(balance)
-        return balance
+        return this.web3.utils.fromWei(balance, 'ether')
     }
 
     // 署名付トランザクション.
@@ -49,6 +49,10 @@ export default class EthWrapper {
             value: this.web3.utils.toHex(ether),
         }
         const tx = new Tx(params)
+        if (privateKey.slice(0, 2) === '0x') {
+            privateKey = privateKey.slice(2)
+        }
+        console.log('privateKey', privateKey)
         tx.sign(new Buffer.from(privateKey, 'hex'))
         const rawTx = '0x' + tx.serialize().toString('hex')
         const result = await this.web3.eth.sendSignedTransaction(rawTx)
