@@ -93,7 +93,7 @@ export default class Wallet extends Vue {
         console.log('OK')
         try {
           const result = await this.wallet.sendEth(this.toAddr, this.toAmount)
-          const message = `送金しました\n${result.blockHash}`
+          const message = `送金しました\n${result.transactionHash}`
           Vue.prototype.$toast(message)
         } catch (error) {
           console.error(error)
