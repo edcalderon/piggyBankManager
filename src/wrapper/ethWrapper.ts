@@ -5,7 +5,7 @@ import Tx from 'ethereumjs-tx'
 declare const Buffer: any
 
 export default class EthWrapper {
-    public host: string = 'ws://localhost:7545' // local test net.
+    public host: string = process.env.ETH_PROVIDER_URL
     public web3: any
     constructor() {
         this.web3 = new Web3(this.host)
