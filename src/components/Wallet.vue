@@ -13,7 +13,7 @@
           </v-card-actions>
           <v-card-text>{{ wallet.balance }} eth</v-card-text>
           <v-card-title>
-            <h3>To address</h3>
+            <h3>Address</h3>
           </v-card-title>
           <v-card-text>{{ wallet.address }}</v-card-text>
           <v-card flat>
@@ -32,7 +32,7 @@
             v-model="toAddr"
             :counter="42"
             required
-            placeholder="例. 0x26d88305D5f16f5763E4bAcB15e106Dd22014F16"
+            placeholder="ex). 0x26d88305D5f16f5763E4bAcB15e106Dd22014F16"
           ></v-text-field>
           <v-text-field
             label="ETH"
@@ -143,11 +143,11 @@ export default class Wallet extends Vue {
     }
 }
 </script>
-<style scoped>
-.wallet {
-  word-break: break-all;
-}
-.errorLabel {
-  color: red;
-}
+<style lang="stylus" scoped>
+.wallet
+  word-break: break-all
+
+.errorLabel
+  color red
+
 </style>
