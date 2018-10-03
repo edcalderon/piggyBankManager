@@ -19,7 +19,7 @@ import Wallet from '@/components/Wallet.vue'; // @ is an alias to /src
   },
 })
 export default class App extends Vue {
-  private title = 'ETH wallet'
+  private title = 'Self made Ethereum wallet'
 }
 </script>
 <style lang="stylus">

@@ -84,7 +84,7 @@ export default class Wallet extends Vue {
 
     private mounted() {
       console.log('hello')
-      Vue.prototype.$toast('Hello eth wallet')
+      Vue.prototype.$toast('Hello self made Ethereum wallet')
     }
 
     private async getAccount() {
