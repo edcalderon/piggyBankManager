@@ -8,15 +8,15 @@ self.__precacheManifest = [
     "url": "/eth-wallet/js/chunk-vendors.388699c7.js"
   },
   {
-    "revision": "d180a6f466c8da22bfae",
-    "url": "/eth-wallet/js/app.4c52b30f.js"
+    "revision": "ee1c893135fa0e2d82d0",
+    "url": "/eth-wallet/js/app.79350cd0.js"
   },
   {
     "revision": "77cfa6c6e3c2e611e0a1",
     "url": "/eth-wallet/js/about.83998765.js"
   },
   {
-    "revision": "268ac315d247b98d73985c1bdf876b44",
+    "revision": "2118880ce08b5beb56a3cf47bc34774f",
     "url": "/eth-wallet/index.html"
   },
   {
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/eth-wallet/css/chunk-vendors.ceb3e7dd.css"
   },
   {
-    "revision": "d180a6f466c8da22bfae",
-    "url": "/eth-wallet/css/app.a886f169.css"
+    "revision": "ee1c893135fa0e2d82d0",
+    "url": "/eth-wallet/css/app.9126b531.css"
   }
 ];

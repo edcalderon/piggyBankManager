@@ -35,7 +35,12 @@
               required
             ></v-text-field>
           <v-flex>
-            <v-btn color="blue" class="white--text" @click="tapSend()">送金</v-btn>
+            <v-btn
+              color="blue"
+              class="white--text"
+              @click="tapSend()"
+              :loading="isLoading"
+              :disabled="isLoading">送金</v-btn>
           </v-flex>
         </v-card>
       </v-container>
@@ -91,6 +96,7 @@ export default class Wallet extends Vue {
     private async tapSend() {
       if (this.isValidation() === true) {
         console.log('OK')
+        this.isLoading = true
         try {
           const result = await this.wallet.sendEth(this.toAddr, this.toAmount)
           const message = `送金しました\n${result.transactionHash}`
@@ -99,6 +105,7 @@ export default class Wallet extends Vue {
           console.error(error)
           Vue.prototype.$toast(error)
         }
+        this.isLoading = false
       }
       console.log(this.isValidation())
     }
@@ -113,69 +120,6 @@ export default class Wallet extends Vue {
       return (error.length === 0) ? true : false
     }
 }
-/*
-export default Vue.extend({
-  name: 'Wallet',
-  data: () => ({
-    isLoading: false as boolean,
-    wallet: new WalletModel() as WalletModel,
-    qrSize: 200 as number,
-    toAmount: 0 as number,
-    toAddr: '' as string,
-    qrJson: '' as string,
-    validation: [] as any[],
-    rules: {
-      senderAddrLimit: (value: string) => (value && (value.length === 42)) || '送金先アドレスは0x含めた42文字です。',
-      senderAddrInput: (value: string) => {
-        const pattern = /^[a-zA-Z0-9-]+$/
-        return pattern.test(value) || '送金先の入力が不正です'
-      },
-      amountLimit: (value: number) => (value >= 0) || '数量を入力してください',
-      amountInput: (value: string) => {
-        const pattern = /^[0-9.]+$/
-        return (pattern.test(value) && !isNaN(Number(value))) || '数量の入力が不正です'
-      },
-      messageRules: (value: string) => (value.length <= 1024) || 'メッセージの最大文字数が超えています。',
-    },
-  }),
-  watch: {
-    'wallet.address'(newVal, oldVal) {
-      this.qrJson = 'ethereum:\n' + newVal
-    },
-  },
-  mounted() {
-    console.log('hello')
-    Vue.prototype.$toast('Hello eth wallet')
-  },
-  methods: {
-    async getAccount() {
-      this.isLoading = true
-      await this.wallet.getAccount()
-      this.isLoading = false
-    },
-    async tapSend() {
-      if (this.isValidation() === true) {
-        const result = await this.wallet.sendEth(this.toAddr, this.toAmount)
-        console.log('tapSend', result)
-        let message = '送金しました'
-        if (result.message !== 'SUCCESS') {
-          message = 'Error ' + result.message
-        }
-        Vue.prototype.$toast(message)
-      }
-    },
-    isValidation(): boolean {
-      this.validation = []
-      this.validation.push(this.rules.senderAddrLimit(this.toAddr))
-      this.validation.push(this.rules.senderAddrInput(this.toAddr))
-      this.validation.push(this.rules.amountLimit(this.toAmount))
-      this.validation.push(this.rules.amountInput(`${this.toAmount}`))
-      const isValidation = this.validation.find((obj: any) => obj !== true )
-      return isValidation
-    },
-  },
-})
-*/
 </script>
 <style scoped>
 .wallet {
