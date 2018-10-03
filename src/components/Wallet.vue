@@ -72,8 +72,7 @@ export default class Wallet extends Vue {
       amountInput: (value: string) => {
         const pattern = /^[0-9.]+$/
         return (pattern.test(value) && !isNaN(Number(value))) || '数量の入力が不正です'
-      },
-      messageRules: (value: string) => (value.length <= 1024) || 'メッセージの最大文字数が超えています。',
+      }
     }
 
     @Watch('wallet.address')

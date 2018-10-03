@@ -4,16 +4,19 @@
 ## Description
 This is a self made Ethereum wallet.
 
-## Build Setup
+## Project setup
 
-``` bash
-# install dependencies
+```
 yarn
+```
 
-# serve with hot reload at localhost:8080
+### Compiles and hot-reloads for development
+```
 yarn serve
+```
 
-# build for production with minification
+### Compiles and minifies for production
+```
 yarn build
 ```
 
