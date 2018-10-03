@@ -36,6 +36,7 @@ body
 main
   text-align center
   margin-top 40px
+  margin-bottom 40px
 
 header
   margin 0
@@ -47,10 +48,10 @@ header
 header span
   display block
   position relative
-  font-size 20px
+  font-size 25px
   line-height 1
   letter-spacing .02em
-  font-weight 400
+  font-weight 700
   box-sizing border-box
   padding-top 16px
   text-align left

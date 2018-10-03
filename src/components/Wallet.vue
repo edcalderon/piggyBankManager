@@ -5,12 +5,16 @@
       <v-container fluid>
         <v-card flat>
           <v-card-actions>
-            <v-card-title><b>残高</b></v-card-title>
+            <v-card-title>
+              <h3>Balance</h3>
+            </v-card-title>
             <v-spacer />
             <v-btn fab small flat @click="getAccount()" :loading="isLoading"><v-icon>cached</v-icon></v-btn>
           </v-card-actions>
           <v-card-text>{{ wallet.balance }} eth</v-card-text>
-          <v-card-title><b>送金先アドレス</b></v-card-title>
+          <v-card-title>
+            <h3>To address</h3>
+          </v-card-title>
           <v-card-text>{{ wallet.address }}</v-card-text>
           <v-card flat>
             <qriously v-model="qrJson" :size="qrSize" />
@@ -20,27 +24,35 @@
           <div v-for="(item, index) in validation" :key="index" class="errorLabel">
             <div v-if="item!==true">{{ item }}</div>
           </div>
-          <v-card-title><b>送金</b></v-card-title>
-            <v-text-field
-              label="送金先"
-              v-model="toAddr"
-              :counter="42"
-              required
-              placeholder="例. 0x26d88305D5f16f5763E4bAcB15e106Dd22014F16"
-            ></v-text-field>
-            <v-text-field
-              label="ETH"
-              v-model="toAmount"
-              type="number"
-              required
-            ></v-text-field>
+          <v-card-title>
+            <h3>Send</h3>
+          </v-card-title>
+          <v-text-field
+            label="To address"
+            v-model="toAddr"
+            :counter="42"
+            required
+            placeholder="例. 0x26d88305D5f16f5763E4bAcB15e106Dd22014F16"
+          ></v-text-field>
+          <v-text-field
+            label="ETH"
+            v-model="toAmount"
+            type="number"
+            required
+          ></v-text-field>
           <v-flex>
             <v-btn
               color="blue"
               class="white--text"
               @click="tapSend()"
               :loading="isLoading"
-              :disabled="isLoading">送金</v-btn>
+              :disabled="isLoading">SEND</v-btn>
+          </v-flex>
+          <v-flex>
+            <v-card-title>
+              <h3>Result</h3>
+            </v-card-title>
+            {{ resultMessage }}
           </v-flex>
         </v-card>
       </v-container>
@@ -62,6 +74,7 @@ export default class Wallet extends Vue {
     private toAddr: string = ''
     private qrJson: string = ''
     private validation: any[] = []
+    private resultMessage: string = ''
     private rules: any = {
       senderAddrLimit: (value: string) => (value && (value.length === 42)) || '送金先アドレスは0x含めた42文字です。',
       senderAddrInput: (value: string) => {
@@ -72,7 +85,7 @@ export default class Wallet extends Vue {
       amountInput: (value: string) => {
         const pattern = /^[0-9.]+$/
         return (pattern.test(value) && !isNaN(Number(value))) || '数量の入力が不正です'
-      }
+      },
     }
 
     @Watch('wallet.address')
@@ -95,13 +108,23 @@ export default class Wallet extends Vue {
     private async tapSend() {
       if (this.isValidation() === true) {
         console.log('OK')
+        this.resultMessage = ''
         this.isLoading = true
         try {
           const result = await this.wallet.sendEth(this.toAddr, this.toAmount)
-          const message = `送金しました\n${result.transactionHash}`
+          let message
+          if (result.status) {
+            message = `SUCCESS\n${result.transactionHash}`
+            this.resultMessage = result.transactionHash
+          } else {
+            message = 'Failed'
+            this.resultMessage = message
+          }
+          this.wallet.getAccount()
           Vue.prototype.$toast(message)
         } catch (error) {
           console.error(error)
+          this.resultMessage = error
           Vue.prototype.$toast(error)
         }
         this.isLoading = false
