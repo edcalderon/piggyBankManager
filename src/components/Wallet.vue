@@ -1,5 +1,5 @@
 <template>
-<div class="wallet">
+  <div class="wallet">
     <v-flex xs12 sm6 offset-sm3>
     <v-card>
       <v-container fluid>
@@ -58,7 +58,7 @@
       </v-container>
     </v-card>
     </v-flex>
-</div>
+  </div>
 </template>
 
 <script lang="ts">
