@@ -1,33 +1,30 @@
-# Ethereum wallet
-> This is a self made Ethereum wallet.
+# Ethereum Wallet
+> This is Ethereum Wallet.
 
-## Description
-This is a self made Ethereum wallet.
+<a href="https://imgur.com/IGVIKg2"><img src="https://i.imgur.com/IGVIKg2.png" width="40%" height="40%" /></a>
 
-## Project setup
+# Application
+[https://hukusuke1007.github.io/eth-wallet/](https://hukusuke1007.github.io/eth-wallet/)
+
+## Usage for developer
+
+### Project setup
+Install libraries.
 
 ```
 yarn
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-## Usage
 ### Prepare Infura API
 Please preare [Infura](https://infura.io/) API.<br>
+
 Rename file to ".env" from "dotenvsample" and set Infura API in .env.
+
 ``` bash
 ETH_PROVIDER_URL = 'wss://ropsten.infura.io/ws/v3/XXXXXX'
 ```
-※Ropsten is test net in Ethereum network.<br>
+
+Ropsten is test net in Ethereum network.<br>
 
 ### Run localhost.
 Please run the following command. Then run Ethereum wallet in localhost.

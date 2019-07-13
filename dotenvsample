@@ -1,3 +1,3 @@
 ## Rename file dotenvsample -> .env
 # Node URL (ex) local is 'ws://localhost:7545'
-ETH_PROVIDER_URL = 'wss://ropsten.infura.io/ws/v3/XXXXXX'
+ETH_PROVIDER_URL = 'wss://ropsten.infura.io/ws/v3/f1cd14beb0774d7599bdc94c703928f0'

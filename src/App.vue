@@ -19,7 +19,7 @@ import Wallet from '@/components/Wallet.vue'; // @ is an alias to /src
   },
 })
 export default class App extends Vue {
-  private title = 'Self made Ethereum wallet'
+  private title = 'Ethereum Wallet'
 }
 </script>
 <style lang="stylus">
@@ -42,7 +42,7 @@ header
   margin 0
   height 56px
   padding 0 16px 0 24px
-  background-color #35495E
+  background-color #3c3c3d
   color #ffffff
 
 header span

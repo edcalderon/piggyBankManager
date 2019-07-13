@@ -11,10 +11,10 @@
  * See https://goo.gl/2aRDsh
  */
 
-importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.2/workbox-sw.js");
+importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/eth-wallet/precache-manifest.e3acf194edd9f0df6c9f0dd29821b14c.js"
+  "/eth-wallet/precache-manifest.03f7b410fb7260c655ad4f7a067508f5.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "eth-wallet"});
