@@ -1,10 +1,11 @@
-import Vue from 'vue';
-import App from './App.vue';
-import router from './router';
-import store from './store';
-import './registerServiceWorker';
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+import store from './store'
+import './registerServiceWorker'
 import Vuetify from 'vuetify'
 import colors from 'vuetify/es5/util/colors'
+import 'vuetify/dist/vuetify.min.css'
 import 'vue2-toast/lib/toast.css'
 import Toast from 'vue2-toast'
 import VueQriously from 'vue-qriously'
