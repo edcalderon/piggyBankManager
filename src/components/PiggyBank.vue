@@ -1,34 +1,30 @@
 <template>
-  <div class="container">
+  <div class="wallet">
+    <v-flex xs12 sm6 offset-sm3>
     <v-card>
+      <v-container fluid>
       <div class="b-row">
         <div>
           <h1>
-            Create a PiggyBank
-            <span></span>
+            Create a Piggy Bank
+            <span></span>  
           </h1>
-          <hr>
+          <br>
           <div>
-            <label for="title">
-              Title
-            </label>
-            <b-form-input
-              id="title"
+           <v-text-field
+              label="Name for your Piggy bank:"
               v-model="title"
-              type="text"
-              placeholder="Title"
-            />
+              required
+              placeholder="Name"
+            ></v-text-field>
           </div>
           <div>
-            <label for="startPrice">
-              startBalance
-            </label>
-            <b-form-input
-              id="startPrice"
+            <v-text-field
+              label="Initial deposit for your piggy (can be 0):"
               v-model="startBalance"
-              type="text"
-              placeholder="Start balance in eth"
-            />
+              required
+              placeholder="Number of Eths"
+            ></v-text-field>
           </div>
         </div>
       </div>
@@ -42,7 +38,7 @@
             id="Description"
             v-model="description"
             rows="5"
-            placeholder="A description"
+            placeholder="Enter a description or a goal for your piggy bank"
           />
         </div>
       </div>
@@ -51,7 +47,7 @@
         <div>
           <b-button
             :variant="'primary'"
-            @click="createAuction"
+            @click="createPiggyBank"
           >
             {{ createStatus }}
           </b-button>
@@ -67,7 +63,7 @@
           columns
           class="mb-3"
         >
-          <b-card v-for="piggy in auctionCard"
+          <b-card v-for="(piggy, index) in auctionCard"
             :title="piggy.name"
             :sub-title="'Balance: ' + piggy.balance + ' ETH'"
             tag="article"
@@ -79,19 +75,24 @@
               {{ piggy.description }}
             </p>
             <p class="card-text, mt-3">
-              Deposits: {{ bidders }}
+              Deposits: {{ bidders }} 
             </p>
             <div>
-              <form @submit.prevent="handleAddFunds(piggy.address)">
+              <form >
                 <b-input-group>
                   <b-form-input
-                    v-model="bidPrice"
+                    v-model="addFundsValue[index]"
                   />
                   <b-input-group-append>
-                    <button>Add Funds</button>
+                     <b-button
+                      class="mt-0"
+                      variant="outline-success"
+                      @click="handleAddFunds(piggy.address,index)"
+                    >
+                      Add Funds
+                    </b-button>
                     <img
-                      v-show="isBid"
-                      id="isBid"
+                      v-show="isFunding[index]"
                       src="https://media.giphy.com/media/2A6xoqXc9qML9gzBUE/giphy.gif"
                     >
                   </b-input-group-append>
@@ -101,19 +102,20 @@
             <b-button
               class="mt-3"
               variant="outline-danger"
-              @click="handleWithdraw(piggy.address)"
+              @click="handleWithdraw(piggy.address,index)"
             >
               {{ finalizeStatus }}
             </b-button>
             <img
-              v-show="isFin"
-              id="isFin"
+              v-show="isWithdrawing[index]"
               src="https://media.giphy.com/media/2A6xoqXc9qML9gzBUE/giphy.gif"
             >
           </b-card>
         </b-card-group>
       </div>
+     </v-container>  
     </v-card> 
+    </v-flex>
   </div>
 </template>
 
@@ -134,9 +136,9 @@ export default {
       auctionCardDev: [],
       isShow: false,
       isLoad: false,
-      isBid: false,
-      isFin: false,
-      bidPrice: '',
+      isFunding: [],
+      isWithdrawing: [],
+      addFundsValue: [],
       withdrawPrice: '',
       auctionAddress: '',
       bidders: 0,
@@ -145,56 +147,57 @@ export default {
     };
   },
   beforeMount() {
-    // get piggyBankBox method: returnAllPiggys()
-    piggyBankBox.methods
-      .returnAllPiggys()
-      .call()
-      .then((piggys) => {
-        console.log(piggys);
-        const index = piggys.length - 1;
-        let pigs = []
-        console.log(piggys[index]);
-        // get the contract address of the previous auction
-        this.auctionAddress = piggys[index];
-        // set the amount of auctions
-        console.log(piggys[0]);
-        class Piggy {
-            constructor(name, description, balance, address) {
-              this.name= name
-              this.description = description
-              this.balance = balance
-              this.address = address
-            }
-        }; 
-        // set the address as the parameter
-        for (let index = 0; index < piggys.length; index++) {
-          const piggyInstance = piggy(piggys[index]);
-          piggyInstance.methods.returnContents().call().then((lists) => {
-            const balance = web3.utils.fromWei(lists[2], 'ether');
-            const piggy = new Piggy(lists[0],lists[1], balance, piggys[index]);
-            pigs.push(piggy)
-          }) 
-        }
-        return pigs
-    }).then((lists) => {
-          this.auctionCard = lists;
-          console.log(this.auctionCard)
-          // show up the auction at the bottom of the page
-          this.isShow = true;
-          this.amount += 1;
-    })
+    // retrieve piggys from the contract
+    this.fetchPiggys()
   },
   methods: {
-    async fechPiggys(piggyInstance) {
-      return piggyInstance.methods.returnContents().call()
+    fetchPiggys(){
+      piggyBankBox.methods
+        .returnAllPiggys()
+        .call()
+        .then((piggys) => {
+          console.log(piggys);
+          const index = piggys.length - 1;
+          let pigs = []
+          console.log(piggys[index]);
+          // get the contract address of the previous auction
+          this.auctionAddress = piggys[index];
+          // set the amount of auctions
+          console.log(piggys[0]);
+          class Piggy {
+              constructor(name, description, balance, address) {
+                this.name= name
+                this.description = description
+                this.balance = balance
+                this.address = address
+              }
+          }; 
+          // set the address as the parameter
+          for (let index = 0; index < piggys.length; index++) {
+            const piggyInstance = piggy(piggys[index]);
+            this.isWithdrawing[index] = false;
+            piggyInstance.methods.returnContents().call().then((lists) => {
+              const balance = web3.utils.fromWei(lists[2], 'ether');
+              const piggy = new Piggy(lists[0],lists[1], balance, piggys[index]);
+              pigs.push(piggy)
+            }) 
+          }
+          return pigs
+      }).then((lists) => {
+            this.auctionCard = lists;
+            console.log(this.auctionCard)
+            // show up the auction at the bottom of the page
+            this.isShow = true;
+            this.amount += 1;
+      })
     },
-    createAuction() {
+    createPiggyBank() {
       // get accounts
       web3.eth.getAccounts().then((accounts) => {
         // convert 'ether' to 'wei'
         console.log(this.startBalance)
         const startBalanceWei = web3.utils.toWei(this.startBalance, 'ether');
-        // createAuction in AuctionBox contract
+        // createPiggyin piggybankBox contract
         this.isLoad = true;
         return piggyBankBox.methods.createPiggy(this.title, this.description, startBalanceWei)
           .send({
@@ -231,14 +234,15 @@ export default {
           console.log(err);
         });
     },
-    handleAddFunds(pig) {
+    handleAddFunds(pig,index) {
       // convert 'ether' to 'wei'
-      const bidPriceWei = web3.utils.toWei(this.bidPrice, 'ether');
+      const bidPriceWei = web3.utils.toWei(this.addFundsValue[index], 'ether');
       // get the wallet adddress
       const fromAddress = web3.eth.accounts.givenProvider.selectedAddress;
       // set the address as the parameter
       const selectedPiggy = piggy(pig);
-      this.isBid = true;
+      this.isFunding[index] = true
+      console.log(this.isFunding[index])
       // placeBid in Auction contract
       selectedPiggy.methods
         .addBalance()
@@ -247,28 +251,30 @@ export default {
           value: bidPriceWei,
         })
         .then(() => {
-          this.isBid = false;
-          // increase the number of bidders
+          this.isFunding[index] = false;
+          // increase the number of deposits and fecth
           this.bidders += 1;
-          this.bidPrice = '';
+          this.fetchPiggys()
         });
     },
-    handleWithdraw(pig) {
-      // convert 'ether' to 'wei'
+    handleWithdraw(pig,index) {
       // get accounts
       web3.eth.getAccounts().then((accounts) => {
+
+        this.isWithdrawing[index] = true;
         // set the address as the parameter
         const selectedPiggy = piggy(pig);
-        this.isFin = true;
-        // finalizeAuction in Auction contract
+
+        // withdraw Piggy in piggy contract
         selectedPiggy.methods
           .withdrawFunds()
           .send({
             from: accounts[0]
           })
           .then(() => {
-            this.isFin = false;
+            this.isWithdrawing[index] = false;
             this.finalizeStatus = 'finalized';
+            this.fetchPiggys()
           });
       });
     },
@@ -286,7 +292,7 @@ export default {
           .send({ from: accounts[0]})
           .then(() => {
             this.isFin = false;
-            this.finalizeStatus = 'finalized';
+            this.finalizeStatus = 'Empty';
           });
       });
     },
@@ -295,6 +301,17 @@ export default {
 </script>
 
 <style>
+#container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 24px;
+}
+.errorLabel{
+  color:red;
+}
 ul {
   list-style-type: none;
   padding: 0;

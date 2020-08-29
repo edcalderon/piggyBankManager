@@ -117,7 +117,7 @@ const abi = [
 		"inputs": [],
 		"name": "withdrawFunds",
 		"outputs": [],
-		"stateMutability": "payable",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]// THE ABI

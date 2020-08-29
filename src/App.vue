@@ -3,9 +3,13 @@
     <header>
       <span>{{ title }} </span>
     </header>
-    <main>
-      <Wallet/>
-      <PiggyBank/>
+    <main>   
+    <div>
+      <b-tabs content-class="mt-3">
+        <b-tab title="Web Wallet" active><Wallet/></b-tab>
+        <b-tab title="PiggyBanks Manager"> <PiggyBank/></b-tab>
+      </b-tabs>
+    </div> 
      <!--  <router-view></router-view> -->
     </main>
   </v-app>

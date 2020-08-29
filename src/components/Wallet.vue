@@ -3,6 +3,10 @@
     <v-flex xs12 sm6 offset-sm3>
     <v-card>
       <v-container fluid>
+        <h1>
+            Your Wallet
+            <span></span>  
+        </h1>
         <v-card flat>
           <v-card-actions>
             <v-card-title>
