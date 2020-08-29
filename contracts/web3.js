@@ -13,8 +13,8 @@ if (window.ethereum) {
   window.web3 = new Web3(web3.currentProvider);
 } else {
   // Non-dapp browsers...
-  console.log(
-    'Non-Ethereum browser detected. You should consider trying MetaMask!'
+  alert(
+    'Non-Ethereum browser detected. You should consider trying MetaMask!  https://metamask.io/'
   );
 }
 console.log(web3);
