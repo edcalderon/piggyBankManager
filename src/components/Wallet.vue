@@ -32,7 +32,7 @@
             v-model="toAddr"
             :counter="42"
             required
-            placeholder="ex). 0x26d88305D5f16f5763E4bAcB15e106Dd22014F16"
+            placeholder="0x26d88305D5f16f5763E4bAcB15e106Dd22014F16"
           ></v-text-field>
           <v-text-field
             label="ETH"
@@ -76,15 +76,15 @@ export default class Wallet extends Vue {
     private validation: any[] = []
     private resultMessage: string = ''
     private rules: any = {
-      senderAddrLimit: (value: string) => (value && (value.length === 42)) || '送金先アドレスは0x含めた42文字です。',
+      senderAddrLimit: (value: string) => (value && (value.length === 42)) || '* Check Wallet lenght',
       senderAddrInput: (value: string) => {
         const pattern = /^[a-zA-Z0-9-]+$/
-        return pattern.test(value) || '送金先の入力が不正です'
+        return pattern.test(value) || '* Incorret Address'
       },
-      amountLimit: (value: number) => (value >= 0) || '数量を入力してください',
+      amountLimit: (value: number) => (value > 0) || '* Amount limit > 0',
       amountInput: (value: string) => {
         const pattern = /^[0-9.]+$/
-        return (pattern.test(value) && !isNaN(Number(value))) || '数量の入力が不正です'
+        return (pattern.test(value) && !isNaN(Number(value))) || '* must be a number'
       },
     }
 
@@ -95,7 +95,7 @@ export default class Wallet extends Vue {
     }
 
     private mounted() {
-      Vue.prototype.$toast('Hello Ethereum wallet')
+      Vue.prototype.$toast('Welcome to your piggy bank!')
     }
 
     private async getAccount() {

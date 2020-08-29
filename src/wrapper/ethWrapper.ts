@@ -1,7 +1,6 @@
 import Web3 from 'web3'
 import Tx from 'ethereumjs-tx'
 
-// Bufferがないよって怒られるため定義.
 declare const Buffer: any
 
 export default class EthWrapper {
@@ -29,7 +28,6 @@ export default class EthWrapper {
         return this.web3.utils.fromWei(balance, 'ether')
     }
 
-    // 署名付トランザクション.
     public async sendEthWithSign(fromAddress: string, toAddress: string, privateKey: string, amount: number) {
         const ether = this.web3.utils.toWei(`${amount}`, 'ether')
         console.log(ether)
@@ -60,7 +58,6 @@ export default class EthWrapper {
         return result
     }
 
-    // 署名なしトランザクション ※ノードが送金元の秘密鍵知っていれば送れる.
     public async sendEth(fromAddress: string, toAddress: string, amount: number) {
         const ether = this.web3.utils.toWei(`${amount}`, 'ether')
         console.log(ether)

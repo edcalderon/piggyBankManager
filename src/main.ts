@@ -9,6 +9,11 @@ import 'vuetify/dist/vuetify.min.css'
 import 'vue2-toast/lib/toast.css'
 import Toast from 'vue2-toast'
 import VueQriously from 'vue-qriously'
+import BootstrapVue from 'bootstrap-vue';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+
+Vue.use(BootstrapVue);
 
 Vue.use(Vuetify, {
   theme: {
