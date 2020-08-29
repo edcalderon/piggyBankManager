@@ -1,4 +1,4 @@
-# Ethereum Wallet
+# Ethereum Wallet and piggybanks
 > This is a Ethereums piggybank manager 
 
 # Application
@@ -22,8 +22,7 @@ npm run serve
 
 ### Prepare MetaMask.
 Please install [MetaMask](https://metamask.io/) in Google Extension.<br>
-It is wallet for etheream and could get ETH for test net from MetaMask.
 
 ### Get "ETH" for rinkeby test net
-You could get ETH for rinkeby test net from [MetaMask Ether Faucet](https://faucet.rinkeby.io/).
+You could get ETH for rinkeby test net from [this Ether Faucet](https://faucet.rinkeby.io/).
 
